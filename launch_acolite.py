@@ -6,6 +6,8 @@
 ##                    QV 2021-04-01 updated for generic ACOLITE
 ##                    QV 2021-05-19 added print of import errors
 ##                    QV 2022-04-14 added agh
+import traceback
+
 
 def launch_acolite():
     ## need to run freeze_support for PyInstaller binary generation
@@ -22,7 +24,7 @@ def launch_acolite():
         import acolite as ac
     except:
         print('Could not import ACOLITE source')
-        print("Error:", sys.exc_info())
+        traceback.print_exc(file=sys.stdout)
         return()
 
     try:
