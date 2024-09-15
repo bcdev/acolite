@@ -16,6 +16,9 @@ def rsr_dict(sensor = None, rsrd = None, wave_range = [0.25,2.55], wave_step = 0
     if rsrd is None:
         if sensor is None:
             sens = glob.glob(ac.config['data_dir']+'/RSR/*.txt')
+        elif sensor == "S2B_MSI":
+            sens = glob.glob(ac.config['data_dir']+'/RSR/S2?_MSI.txt'.format(sensor))
+            if len(sens) == 0: print('Could not find {} RSR file at {}'.format(sensor, ac.config['data_dir']+'/RSR/'))
         else:
             sens = glob.glob(ac.config['data_dir']+'/RSR/{}.txt'.format(sensor))
             if len(sens) == 0: print('Could not find {} RSR file at {}'.format(sensor, ac.config['data_dir']+'/RSR/'))
@@ -34,4 +37,6 @@ def rsr_dict(sensor = None, rsrd = None, wave_range = [0.25,2.55], wave_step = 0
         rsrd[fsensor]['wave_name'] = {b:'{:.0f}'.format(rsrd[fsensor]['wave_nm'][b]) for b in rsrd[fsensor]['wave_nm']}
         if 'rsr_bands' not in rsrd[fsensor]:
             rsrd[fsensor]['rsr_bands'] = [b for b in rsrd[fsensor]['rsr']]
+    if "S2B_MSI" in rsrd:
+        rsrd["S2B_MSI"]['wave_name'] = rsrd["S2A_MSI"]['wave_name']
     return(rsrd)
